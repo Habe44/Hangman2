@@ -15,7 +15,7 @@ public class Hangman {
         Random r = new Random();
         int randomItem = r.nextInt(Hangman.words.size());
         randomWord = Hangman.words.get(randomItem);
-        //System.out.println(randomWord);
+
     }
 
     void encrypt() {
@@ -125,8 +125,9 @@ public class Hangman {
         }
     }
     public static void main(String[] args) {
-        words.add("kot");
-        words.add("pies");
+        words.add("");
+        words.add("");
+        words.add("");
         Hangman h = new Hangman();
 
         h.Draw();
