@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Random;
@@ -52,7 +53,6 @@ public class Hangman {
                 continue;
             }
             if(randomWord.toLowerCase().contains(playerLetter)){
-                System.out.println("Zgadza sie !");
                 correctLetters.add(playerLetter);
             }
             if(correctLetters.size() == randomWord.length()){
@@ -156,7 +156,7 @@ public class Hangman {
             }
         }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         words.add("Puszka");
         words.add("Pies");
         words.add("Obraz");
@@ -166,14 +166,23 @@ public class Hangman {
         Hangman h = new Hangman();
         boolean game = true;
 
+        System.out.println("Zasady gry:");
+        System.out.println("Program losuje jedno z pieciu slow do odgadniecia. Zadaniem jest odgadnac wszystkie wylosowane slowa w 3 rundy.");
+        System.out.println("Nalezy wpisywac po jednej malej literze.");
+        System.out.println(" Prob na odgadniecie hasla jest 6.");
+        System.out.println("");
+        System.out.println("");
+        System.out.println("");
+
         do {
             h.Draw();
             h.encrypt();
             h.decrypt();
-            if(h.win + h.lose == 5){
+            if(h.win + h.lose == 3){
                 if(h.win > h.lose){
                     System.out.println("Wygrales gre! Wynik:");
                     System.out.println("Wygrane: " + h.win + "   " + "Przegrane: " + h.lose);
+
                 }
                 if(h.win < h.lose){
                     System.out.println("Przegrales gre!");
@@ -188,6 +197,19 @@ public class Hangman {
                     System.out.println("^^^^^^^");
                     System.out.println("Wynik:");
                     System.out.println("Wygrane: " + h.win + "   " + "Przegrane: " + h.lose);
+                }
+                System.out.println("Czy chcesz zagrac jeszcze raz?");
+                System.out.println("1 - zagraj jeszcze raz\n2 - zakoncz gre");
+                int tryAgain = scn.nextInt();
+                if (tryAgain == 1){
+                    System.out.println("");
+                    System.out.println("");
+                    System.out.println("");
+                    h.win = 0;
+                    h.lose = 0;
+                }
+                if(tryAgain == 2){
+                    break;
                 }
             }
         }
