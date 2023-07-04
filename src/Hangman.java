@@ -1,11 +1,10 @@
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Locale;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
+
 
 public class Hangman {
     static ArrayList<String> words = new ArrayList<>();
+    static ArrayList<String> usedWords = new ArrayList<>();
     static ArrayList<String> correctLetters = new ArrayList<>();
     static ArrayList<String> incorrectLetters = new ArrayList<>();
     String randomWord;
@@ -19,21 +18,24 @@ public class Hangman {
         Random r = new Random();
         int randomItem = r.nextInt(Hangman.words.size());
         randomWord = Hangman.words.get(randomItem);
+
+    }
+    void Hint(){
         if(randomWord.equals("Puszka")){
             System.out.println("Podpowiedz: blaszane opakowanie np. napoju.");
         }
         if(randomWord.equals("Pies")){
-           System.out.println("Podpowiedz: mowia, ze jest to najlepszy przyjaciel czlowieka.");
-       }
+            System.out.println("Podpowiedz: mowia, ze jest to najlepszy przyjaciel czlowieka.");
+        }
         if(randomWord.equals("Obraz")){
-           System.out.println("Podpowiedz: podziwia sie go na wystawie.");
-       }
-       if(randomWord.equals("Drewno")){
-           System.out.println("Podpowiedz: surowiec dla ciesli.");
-       }
-       if(randomWord.equals("Butelka")){
-           System.out.println("Podpowiedz: szklane opakowanie");
-       }
+            System.out.println("Podpowiedz: podziwia sie go na wystawie.");
+        }
+        if(randomWord.equals("Drewno")){
+            System.out.println("Podpowiedz: surowiec dla ciesli.");
+        }
+        if(randomWord.equals("Butelka")) {
+            System.out.println("Podpowiedz: szklane opakowanie");
+        }
     }
 
     void encrypt() {
@@ -65,6 +67,8 @@ public class Hangman {
                 System.out.println("Wygrane: " + win);
                 System.out.println("Przegrane: " + lose);
                 System.out.println("");
+                usedWords.add(randomWord);
+                correctLetters.clear();
                 break;
             }
             if(!randomWord.toLowerCase().contains(playerLetter)){
@@ -165,31 +169,34 @@ public class Hangman {
         Scanner scn = new Scanner(System.in);
         Hangman h = new Hangman();
         boolean game = true;
-
         System.out.println("Zasady gry:");
         System.out.println("Program losuje jedno z pieciu slow do odgadniecia. Zadaniem jest odgadnac wszystkie wylosowane slowa w 3 rundy.");
         System.out.println("Nalezy wpisywac po jednej malej literze.");
         System.out.println(" Prob na odgadniecie hasla jest 6.");
-        System.out.println("");
-        System.out.println("");
-        System.out.println("");
+        System.out.println(" ");
+        System.out.println(" ");
+        System.out.println(" ");
 
         do {
             h.Draw();
+            while(usedWords.contains(h.randomWord)){
+                h.Draw();
+            }
+            h.Hint();
             h.encrypt();
             h.decrypt();
-            if(h.win + h.lose == 3){
-                if(h.win > h.lose){
+            if (h.win + h.lose == 3) {
+                if (h.win > h.lose) {
                     System.out.println("Wygrales gre! Wynik:");
                     System.out.println("Wygrane: " + h.win + "   " + "Przegrane: " + h.lose);
-
+                    usedWords.clear();
                 }
-                if(h.win < h.lose){
+                if (h.win < h.lose) {
                     System.out.println("Przegrales gre!");
                     System.out.println("-----------------------");
                     System.out.println("|                     |");
                     System.out.println("|                     0");
-                    System.out.println("|                    >|<");
+                    System.out.println("|                     >|<");
                     System.out.println("|                     |");
                     System.out.println("|                    ] [");
                     System.out.println("|");
@@ -197,23 +204,26 @@ public class Hangman {
                     System.out.println("^^^^^^^");
                     System.out.println("Wynik:");
                     System.out.println("Wygrane: " + h.win + "   " + "Przegrane: " + h.lose);
+                    usedWords.clear();
                 }
                 System.out.println("Czy chcesz zagrac jeszcze raz?");
                 System.out.println("1 - zagraj jeszcze raz\n2 - zakoncz gre");
                 int tryAgain = scn.nextInt();
-                if (tryAgain == 1){
-                    System.out.println("");
-                    System.out.println("");
-                    System.out.println("");
+                if (tryAgain == 1) {
+                    System.out.println(" ");
+                    System.out.println(" ");
+                    System.out.println(" ");
                     h.win = 0;
                     h.lose = 0;
+                    correctLetters.clear();
+                    incorrectLetters.clear();
                 }
-                if(tryAgain == 2){
+                if (tryAgain == 2) {
                     break;
                 }
             }
         }
-        while(game);
+        while (game);
 
     }
 }
